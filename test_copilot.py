@@ -79,3 +79,46 @@ def mixed_integer_programming_simplex(c, A_ub, b_ub, A_eq, b_eq, bounds):
         solution.append(variables[i].x)
 
     return solution
+
+
+# protein 3d structure prediction
+def RoseTTAFold(sequence, structure, temperature, iterations, seed):
+    """
+    Predict the 3D structure of a protein using the ROSE algorithm.
+    :param sequence: Sequence of the protein.
+    :param structure: Structure of the protein.
+    :param temperature: Temperature of the simulation.
+    :param iterations: Number of iterations of the simulation.
+    :param seed: Seed of the simulation.
+    :return: 3D structure of the protein.
+    """
+    # Create the model
+    model = Model()
+
+    # Create variables
+    variables = []
+    for i in range(len(sequence)):
+        variables.append(model.addVar(lb=0, ub=1, vtype=GRB.BINARY))
+
+    # Set objective
+    model.setObjective(quicksum(variables[i] for i in range(len(sequence))), GRB.MINIMIZE)
+
+    # Add constraints
+    for i in range(len(sequence)):
+        if structure[i] == 'H':
+            model.addConstr(variables[i] == 1)
+        elif structure[i] == 'E':
+            model.addConstr(variables[i] == 0)
+        else:
+            model.addConstr(variables[i] + variables[(i + 1) % len(sequence)] <= 1)
+            model.addConstr(variables[i] + variables[(i + 1) % len(sequence)] >= 1 - temperature)
+
+    # Optimize
+    model.optimize()
+
+    # Get solution
+    solution = []
+    for i in range(len(sequence)):
+        solution.append(variables[i].x)
+
+    return solution
