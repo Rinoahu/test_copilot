@@ -18,3 +18,4 @@ int smith_waterman_avx2(char *seq1, char *seq2, int len1, int len2, int *score, 
     int pos2_avx2_tmp3[len1+1][len2+1];
     int score_avx2_tmp4[len1+1][len2+1];
     }
+
