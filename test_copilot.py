@@ -122,3 +122,40 @@ def RoseTTAFold(sequence, structure, temperature, iterations, seed):
         solution.append(variables[i].x)
 
     return solution
+
+
+# sudoku solver
+def sudoku_solver(grid):
+    """
+    Solves a Sudoku puzzle.
+    :param grid: Grid of the puzzle.
+    :return: Solution of the puzzle.
+    """
+    # Create the model
+    model = Model()
+
+    # Create variables
+    variables = []
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            variables.append(model.addVar(lb=0, ub=9, vtype=GRB.INTEGER))
+
+    # Set objective
+    model.setObjective(quicksum(variables[i * 9 + j] for i in range(len(grid)) for j in range(len(grid[i]))), GRB.MINIMIZE)
+
+    # Add constraints
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] != 0:
+                model.addConstr(variables[i * 9 + j] == grid[i][j])
+
+    # Optimize
+    model.optimize()
+
+    # Get solution
+    solution = []
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            solution.append(variables[i * 9 + j].x)
+
+    return solution
