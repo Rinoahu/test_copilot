@@ -159,3 +159,17 @@ def sudoku_solver(grid):
             solution.append(variables[i * 9 + j].x)
 
     return solution
+
+
+# hanoi tower
+def hanoi_tower(n, a, b, c):
+    if n <= 1:
+        print(a, b)
+    else:
+        hanoi_tower(n - 1, a, c, b)
+        print(a, b)
+        hanoi_tower(n - 1, c, b, a)
+
+# Relevance vector machine (RVM)
+def RVM(X, y, kernel, C, epsilon, max_iter):
+    
