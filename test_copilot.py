@@ -171,5 +171,4 @@ def hanoi_tower(n, a, b, c):
         hanoi_tower(n - 1, c, b, a)
 
 # Relevance vector machine (RVM)
-def RVM(X, y, kernel, C, epsilon, max_iter):
-    
+def RVM(X, y, kernel, C, epsilon, max_iter): 
