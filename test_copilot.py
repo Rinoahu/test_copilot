@@ -231,38 +231,15 @@ def partition(A, p, r):
     A[i + 1], A[r] = A[r], A[i + 1]
     return i + 1
 
-# suffix tree algorithm
+# suffix tree algorithm (suffix tree)
 def suffix_tree(text):
     """
     Builds a suffix tree of a text.
     :param text: Text of the suffix tree.
     :return: Suffix tree of the text.
     """
-    # Create the model
-    model = Model()
-
-    # Create variables
-    variables = []
+    # Create the root of the tree
+    root = Node(None, None, None, None)
     for i in range(len(text)):
-        variables.append(model.addVar(lb=0, ub=1, vtype=GRB.BINARY))
-
-    # Set objective
-    model.setObjective(quicksum(variables[i] for i in range(len(text))), GRB.MINIMIZE)
-
-    # Add constraints
-    for i in range(len(text)):
-        model.addConstr(variables[i] == y[i])
-        for j in range(len(text)):
-            if i != j:
-                model.addConstr(variables[i] + variables[j] <= 1)
-                model.addConstr(variables[i] + variables[j] >= 1 - C * kernel(X[i], X[j]))
-
-    # Optimize
-    model.optimize()
-
-    # Get solution
-    solution = []
-    for i in range(len(text)):
-        solution.append(variables[i].x)
-
-    return solution
+        add_suffix(root, text[i:])
+    return root
