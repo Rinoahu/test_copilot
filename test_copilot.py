@@ -171,4 +171,98 @@ def hanoi_tower(n, a, b, c):
         hanoi_tower(n - 1, c, b, a)
 
 # Relevance vector machine (RVM)
-def RVM(X, y, kernel, C, epsilon, max_iter): 
+def RVM(X, y, kernel, C, epsilon, max_iter):
+    """
+    Solves a Relevance Vector Machine (RVM) problem.
+    :param X: Matrix of the training data.
+    :param y: Vector of the labels of the training data.
+    :param kernel: Kernel function.
+    :param C: Regularization parameter.
+    :param epsilon: Convergence parameter.
+    :param max_iter: Maximum number of iterations.
+    :return: Solution of the problem.
+    """
+    # Create the model
+    model = Model()
+
+    # Create variables
+    variables = []
+    for i in range(len(X)):
+        variables.append(model.addVar(lb=0, ub=1, vtype=GRB.BINARY))
+
+    # Set objective
+    model.setObjective(quicksum(variables[i] for i in range(len(X))), GRB.MINIMIZE)
+
+    # Add constraints
+    for i in range(len(X)):
+        model.addConstr(variables[i] == y[i])
+        for j in range(len(X)):
+            if i != j:
+                model.addConstr(variables[i] + variables[j] <= 1)
+                model.addConstr(variables[i] + variables[j] >= 1 - C * kernel(X[i], X[j]))
+
+    # Optimize
+    model.optimize()
+
+    # Get solution
+    solution = []
+    for i in range(len(X)):
+        solution.append(variables[i].x)
+
+    return solution
+
+
+
+# qsort function
+def qsort(A, p, r):
+    if p < r:
+        q = partition(A, p, r)
+        qsort(A, p, q - 1)
+        qsort(A, q + 1, r)
+    return A
+
+def partition(A, p, r):
+    x = A[r]
+    i = p - 1
+    for j in range(p, r):
+        if A[j] <= x:
+            i += 1
+            A[i], A[j] = A[j], A[i]
+    A[i + 1], A[r] = A[r], A[i + 1]
+    return i + 1
+
+# suffix tree algorithm
+def suffix_tree(text):
+    """
+    Builds a suffix tree of a text.
+    :param text: Text of the suffix tree.
+    :return: Suffix tree of the text.
+    """
+    # Create the model
+    model = Model()
+
+    # Create variables
+    variables = []
+    for i in range(len(text)):
+        variables.append(model.addVar(lb=0, ub=1, vtype=GRB.BINARY))
+
+    # Set objective
+    model.setObjective(quicksum(variables[i] for i in range(len(text))), GRB.MINIMIZE)
+
+    # Add constraints
+    for i in range(len(text)):
+        model.addConstr(variables[i] == y[i])
+        for j in range(len(text)):
+            if i != j:
+                model.addConstr(variables[i] + variables[j] <= 1)
+                model.addConstr(variables[i] + variables[j] >= 1 - C * kernel(X[i], X[j]))
+
+    # Optimize
+    model.optimize()
+
+    # Get solution
+    solution = []
+    for i in range(len(text)):
+        solution.append(variables[i].x)
+
+    return solution
