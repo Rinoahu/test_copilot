@@ -245,4 +245,4 @@ def suffix_tree(text):
     return root
 
 # just a test
-# quick sort 
+# quick sort
