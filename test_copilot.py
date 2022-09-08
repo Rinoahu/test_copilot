@@ -243,3 +243,6 @@ def suffix_tree(text):
     for i in range(len(text)):
         add_suffix(root, text[i:])
     return root
+
+# just a test
+# quick sort 
