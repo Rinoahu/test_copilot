@@ -18,7 +18,7 @@ int main()
     {
         sum=j;
         #pragma omp simd reduction(+:sum) private(x)
-        for(i=0;i<N;i++)
+        for(i=0;i<N;i+=12)
         {
             x=(i+0.5)*step;
             //y=(rand()>.5)?0:1;
