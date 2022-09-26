@@ -47,14 +47,18 @@ int main()
                 //y[M*k+i] = ((x[M*k+i]<y[M*k+i])?x[M*k+i]:y[M*k+i]);
                 //x[M*k+i] = (x[M*k+i] > x[M*k+i-1]-1) ? x[M*k+i]: x[M*k+i-1]-1;
                 //x[M*k+i] = max(x[M*k+i], x[M*k+i-1]-1);
-                x[i+k] = max(x[i+k], x[i+k-1]-1);
+                //x[i+k] = max(x[i+k], x[i+k-1]-1);
+                x[i+k] = x[i+k-1]-1;
+
             }
         }
     }
     gettimeofday(&end,NULL);
     //pi=sum*step;
     int pi=x[1024];
-    int time_used=1000000*(end.tv_sec-start.tv_sec)+(end.tv_usec-start.tv_usec);
+    int time_used=(1000000*(end.tv_sec-start.tv_sec)+(end.tv_usec-start.tv_usec))/1000000;
+    //int time_used=(end.tv_sec-start.tv_sec)+(end.tv_usec-start.tv_usec)/1000;
+
     cout<<"time_used="<<time_used<<endl;
     cout<<"PI="<<pi<<endl;
     free(x);
