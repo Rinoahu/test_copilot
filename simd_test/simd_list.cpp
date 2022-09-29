@@ -10,34 +10,45 @@ using namespace std;
 int main()
 {
     timeval start,end;
-    int i, j, k, N=1073741824, M=N/8;
+    int i, j, k, bw=8, N=1073741824, M=N/bw;
     //double x, y, pi, sum=0;
     //double step=1.0/N;
     //int *x, *y;
     srand(42);
     int *x = (int *)malloc(N*sizeof(int));
-    //int *y = (int *)malloc(N*sizeof(int));
+    int *y = (int *)malloc(N*sizeof(int));
     for(i=0; i<N; i++)
     {
         x[i] = rand();
         //y[i] = rand();
     }
+
+    // reorder the input
+    for(i=0; i<N; i++)
+    {
+        j = i % bw * M + i / bw;
+        y[i] = x[j];
+    }
+
     //printf("%d %d %d %d\n", N, M, x[0], y[0]);
     gettimeofday(&start,NULL);
     for(j=0; j<10; j++)
     {
 
-        /*
         #pragma omp simd
-        for(i=1; i<N; i++)
+        for(i=bw; i<N; i+=bw)
         {
             //y[i] = ((x[i]<50)?x[i]:y[i]);
             //y[i] = x[i];
-            x[i] = max(x[i], x[i-1]-1);
-
+            //x[i] = max(x[i], x[i-1]-1);
+            #pragma omp simd
+            for(j=0; j<bw; j++)
+            {
+                y[i+j] = y[i-bw + j];
+            }
         }
-        */
 
+        /*
         #pragma omp simd
         for(i=0; i<N; i+=M)
         {
@@ -52,6 +63,7 @@ int main()
 
             }
         }
+        */
     }
     gettimeofday(&end,NULL);
     //pi=sum*step;
