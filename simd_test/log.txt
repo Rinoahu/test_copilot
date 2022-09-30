@@ -1,1 +1,0 @@
-simd.cpp:57:23: optimized: loop vectorized using 16 byte vectors
