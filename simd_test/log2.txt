@@ -1,7 +1,0 @@
-2 gcc
-serial
-time_used=0
-PI=71875142
-simd
-time_used=0
-PI=71875142
