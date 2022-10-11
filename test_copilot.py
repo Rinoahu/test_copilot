@@ -247,4 +247,11 @@ def suffix_tree(text):
 # just a test
 # quick sort function
 # >OpenAI Codex: Suggest Auto Complete
-# just a test
+# just a test 
+def qsort(A, p, r):
+    x = A[r]
+    i = p - 1
+    for j in range(p, r):
+        if A[j] <= x:
+            i += 1
+            A[i], A[j] = A[j], A[i]
