@@ -32,7 +32,8 @@ int main()
 
     //printf("%d %d %d %d\n", N, M, x[0], y[0]);
     gettimeofday(&start,NULL);
-    for(k=0; k<30; k++)
+    printf("run 100 times on 1gb data\n");
+    for(k=0; k<100; k++)
     {
 
         /*
@@ -55,7 +56,10 @@ int main()
         #pragma omp simd
         for(i=bw; i<N; i++)
         {
-            y[i] = y[i-bw] - 1;
+            //y[i] += -(y[i] > y[i-bw]-1) & (y[i-bw]-1 - y[i]);
+            //y[i] = (y[i] + y[i-bw]-1)/2 + (y[i] > y[i-bw]-1) * (y[i] - y[i-bw] + 1) / 2;
+            y[i] = y[i] > y[i-bw]-1 ? y[i] : y[i-bw]-1;
+
         }
         //*/
 

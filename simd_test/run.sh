@@ -21,8 +21,8 @@ rm -f *.exe
 
 if [ $cc == "gcc" ]
 then
-    g++ -O$flag -mavx2 -fopt-info-vec-optimized -ftree-vectorizer-verbose=2 -o a_serial.exe simd.cpp &> log.txt
-    g++ -O$flag -mavx2 -fopenmp -fopt-info-vec-optimized -ftree-vectorizer-verbose=2 -o a_simd.exe simd.cpp &>> log.txt
+    /usr/bin/g++ -O$flag -mavx2 -fopt-info-vec-optimized -ftree-vectorizer-verbose=2 -o a_serial.exe simd.cpp &> log.txt
+    /usr/bin/g++ -O$flag -mavx2 -fopenmp -fopt-info-vec-optimized -ftree-vectorizer-verbose=2 -o a_simd.exe simd.cpp &>> log.txt
 
 elif [ $cc == "clang" ]
 then
@@ -33,13 +33,12 @@ then
 else
     icpc -O$flag -mavx2 -D NOFUNCCALL -qopt-report=1 -qopt-report-phase=vec -o a_serial.exe simd.cpp && mv simd.optrpt serial.optrpt
     icpc -O$flag -mavx2 -D NOFUNCCALL -qopt-report=1 -qopt-report-phase=vec -qopenmp -o a_simd.exe simd.cpp
+    cat *.optrpt
 fi
-
 
 echo serial
 ./a_serial.exe
 echo simd
 ./a_simd.exe
 
-
-rm simd.cpp *.exe
+rm -f simd.cpp *.exe *.optrpt log*.txt
