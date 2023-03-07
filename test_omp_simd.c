@@ -6,7 +6,7 @@
 int main() {
   int N = 1000000000; // size of the array
   int *A = malloc(N * sizeof(int)); // the array to check
-  int nonzero = 1; // flag to indicate if all elements are nonzero
+  int nonzero; // flag to indicate if all elements are nonzero
 
   clock_t start, end;
   double cpu_time_used;
@@ -20,6 +20,7 @@ int main() {
 
   for (int j = 0; j < 10; j++) {
 
+      nonzero = 1;
       // use omp simd to check each element in parallel
       // #pragma omp simd reduction(&:nonzero)
       for (int i = 0; i < N; i++) {
