@@ -18,3 +18,5 @@ def pythonize_vector(klass, name):
         klass.__init__ = pyinit
 
 cppyy.py.add_pythonization(pythonize_vector, 'std')
+
+from cppyy.gbl.std import vector, pair
