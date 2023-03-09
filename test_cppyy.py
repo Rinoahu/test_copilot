@@ -20,3 +20,4 @@ def pythonize_vector(klass, name):
 cppyy.py.add_pythonization(pythonize_vector, 'std')
 
 from cppyy.gbl.std import vector, pair
+from cppyy.gbl.std import map as dct
