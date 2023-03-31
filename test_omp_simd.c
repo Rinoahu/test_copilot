@@ -181,18 +181,24 @@ int test_7(int8_t *A, int N) {
 }
 
 
-int set_test(){
+int simd_set_examples(){
     // Declare an array of 32 integers
     int arr[32];
     // Create a vector with all elements set to 42
     __m128i vec = _mm_set1_epi32(42);
     // Store the vector into the array using a loop
     for (int i = 4; i < 32; i += 4) {
-    // Cast the array pointer to __m128i*
-    //_mm_store_si128((__m128i*)&arr[i], _mm_set1_epi32(42));
-    _mm_store_si128((__m128i*)&arr[i], _mm_setr_epi32(1,2,3,4));
-    return 0;
+        // Cast the array pointer to __m128i*
+        //_mm_store_si128((__m128i*)&arr[i], _mm_set1_epi32(42));
+        _mm_store_si128((__m128i*)&arr[i], _mm_setr_epi32(1,2,3,4));
     }
+
+    int array[64] = { /* some values */ };
+    int indices[4] = {1, 34, 45, 55}; // the positions to fetch
+    __m256i vindex = _mm256_loadu_si256((__m256i*)indices); // load index vector
+    __m256i vresult = _mm256_i32gather_epi32(array, vindex, 4); // gather values with scale factor of 4
+    
+    return 0;
 }
 
 int main() {
