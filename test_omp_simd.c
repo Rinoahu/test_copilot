@@ -66,7 +66,7 @@ int is_any_zero_2(int8_t *array, int size) {
 
 int main() {
   int N = 1280000000; // size of the array
-  int8_t *A = malloc(N * sizeof(int)); // the array to check
+  int8_t *A = malloc(N * sizeof(int8_t)); // the array to check
   int k; // flag to indicate if all elements are nonzero
 
   clock_t s0, e0;
